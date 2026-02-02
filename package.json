@@ -5,7 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/aymansiddiqui2006/First-BackEnd-Project/issues"
   },
-  "homepage": "https://github.com/aymansiddiqui2006/First-BackEnd-Project#readme"
+  "homepage": "https://github.com/aymansiddiqui2006/First-BackEnd-Project#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
 }
