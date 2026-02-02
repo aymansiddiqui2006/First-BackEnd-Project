@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "learning backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aymansiddiqui2006/First-BackEnd-Project.git"
+  },
+  "keywords": [
+    "javaScript",
+    "backend"
+  ],
+  "author": "Ayman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aymansiddiqui2006/First-BackEnd-Project/issues"
+  },
+  "homepage": "https://github.com/aymansiddiqui2006/First-BackEnd-Project#readme"
+}
