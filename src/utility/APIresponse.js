@@ -1,0 +1,8 @@
+class ApiResponse{
+    constructor(statusCode,data,message="Seccuss"){
+        this.statusCode=statusCode
+        this.data=data
+        this.message=message
+        this.sucess
+    }
+}
