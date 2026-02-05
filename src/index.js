@@ -29,10 +29,6 @@ connectDB()
 
 
 
-
-
-
-
 // ; (async () => {
 //     try {
 //         mongoose.connect(`${process.env.MONGODB_URL}/${DB_NAME}`)
