@@ -1,5 +1,4 @@
 import dotenv from "dotenv"
-import express from "express"
 import connectDB from "./DataBase/index.js";
 import app from "./app.js";
 
@@ -11,6 +10,7 @@ connectDB()
         () => {
             app.listen(process.env.PORT || 8000, () => {
                 console.log(`server is runner in port ${process.env.PORT}`);
+
             })
         }
     )
