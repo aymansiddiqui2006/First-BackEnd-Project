@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt"
-import { use } from "react";
 
 
 const userSchema = new mongoose.Schema({
@@ -9,7 +8,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true,
         required: true,
-        lower: true,
+        lowercase: true,
         trim: true,
         index: true,
 
@@ -18,7 +17,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true,
         required: true,
-        lower: true,
+        lowercase: true,
         trim: true,
     },
     Fullname: {
@@ -28,7 +27,7 @@ const userSchema = new mongoose.Schema({
         index: true,
 
     },
-    Avatar: {
+    avatar: {
         type: String,
         required: true,
     },
@@ -36,7 +35,7 @@ const userSchema = new mongoose.Schema({
         type: String,
 
     },
-    watchHistry: [
+    watchHistory : [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Video"
@@ -44,7 +43,6 @@ const userSchema = new mongoose.Schema({
     ],
     password: {
         type: String,
-        unique: true,
         required: [true, "Please enter password"],
     },
     refreshToken: {
@@ -53,11 +51,11 @@ const userSchema = new mongoose.Schema({
 
 }, { timestamps: true, })
 
-userSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) return next();
-    this.password = await bcrypt.hash(this.password, 10)
-    next()
-})
+userSchema.pre("save", async function () {
+    if (!this.isModified("password")) return;
+    this.password = await bcrypt.hash(this.password, 10);
+});
+
 
 userSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrypt.compare(password, this.password)
