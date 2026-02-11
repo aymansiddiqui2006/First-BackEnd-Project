@@ -254,7 +254,7 @@ const UserDataChange = asyncHandler(async (req, res) => {
         throw new ApiError(401, "all fileds are require");
     }
 
-    const user = await User.findByIdAndUpdate(req.user?._id,
+    await User.findByIdAndUpdate(req.user?._id,
         {
             $set: {
                 Fullname,
@@ -269,6 +269,31 @@ const UserDataChange = asyncHandler(async (req, res) => {
 
 })
 
+const UpdateAvatar = asyncHandler(async (req, res) => {
+    const avatarLocalPath = await avatar.file?.path
+
+    if (!avatarLocalPath) {
+        throw new ApiError(400, "Avatar not found !!")
+    }
+
+    const avatar = await uploadOnCloudinary(avatarLocalPath)
+    if (!avatar.url) {
+        throw new ApiError(400, "error while uploading the file")
+    }
+    await User.findByIdAndUpdate(req.user?._id,
+        {
+            $set: {
+                avatar: avatar.url
+            }
+        },
+        { new: true }
+    ).select("-password")
+
+    return res.status(200)
+        .json(new ApiResponse(200, {}, "entity updated succefully"))
+    save()
+})
+
 export {
     registerUser,
     loginUser,
@@ -276,5 +301,6 @@ export {
     refreshAccessToken,
     changeCurrentPassword,
     getCurrentUser,
-    UserDataChange
+    UserDataChange,
+    UpdateAvatar
 }
