@@ -223,7 +223,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 const changeCurrentPassword = asyncHandler(async (req, res) => {
     const { oldPassword, newPassword } = req.body;
 
-    const user = await req.findById(req.user?.id);
+    const user = await req.findById(req.user?._id);
     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
 
     if (!isPasswordCorrect) {
@@ -238,11 +238,43 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, {}, "password change successfully"))
 })
 
-const getCurrentUser=asyncHandler(async(req,res)=>{
+const getCurrentUser = asyncHandler(async (req, res) => {
     return res
         .status(200)
         .json(new ApiResponse(200, req.user, "current user fetched successfully"))
 
 })
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken, changeCurrentPassword,getCurrentUser }
+const UserDataChange = asyncHandler(async (req, res) => {
+    const { Fullname, username } = req.body;
+
+
+
+    if (!Fullname || !username) {
+        throw new ApiError(401, "all fileds are require");
+    }
+
+    const user = await User.findByIdAndUpdate(req.user?._id,
+        {
+            $set: {
+                Fullname,
+                email: email,
+            }
+        },
+        { new: true }
+    ).select("-password")
+
+    return res.status(200)
+        .json(new ApiResponse(200, {}, "entity updated succefully"))
+
+})
+
+export {
+    registerUser,
+    loginUser,
+    logoutUser,
+    refreshAccessToken,
+    changeCurrentPassword,
+    getCurrentUser,
+    UserDataChange
+}
