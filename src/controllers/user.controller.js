@@ -220,102 +220,105 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     }
 })
 
-const changeCurrentPassword = asyncHandler(async (req, res) => {
-    const { oldPassword, newPassword } = req.body;
 
-    const user = await req.findById(req.user?._id);
-    const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
 
-    if (!isPasswordCorrect) {
-        throw new ApiError(401, "old password not correct")
-    }
 
-    user.password = newPassword;
-    await user.save({ validateBeforeSave: false });
+// const changeCurrentPassword = asyncHandler(async (req, res) => {
+//     const { oldPassword, newPassword } = req.body;
 
-    return res
-        .status(200)
-        .json(new ApiResponse(200, {}, "password change successfully"))
-})
+//     const user = await req.findById(req.user?._id);
+//     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
 
-const getCurrentUser = asyncHandler(async (req, res) => {
-    return res
-        .status(200)
-        .json(new ApiResponse(200, req.user, "current user fetched successfully"))
+//     if (!isPasswordCorrect) {
+//         throw new ApiError(401, "old password not correct")
+//     }
 
-})
+//     user.password = newPassword;
+//     await user.save({ validateBeforeSave: false });
 
-const UserDataChange = asyncHandler(async (req, res) => {
-    const { Fullname, username } = req.body;
+//     return res
+//         .status(200)
+//         .json(new ApiResponse(200, {}, "password change successfully"))
+// })
 
-    if (!Fullname || !username) {
-        throw new ApiError(401, "all fileds are require");
-    }
+// const getCurrentUser = asyncHandler(async (req, res) => {
+//     return res
+//         .status(200)
+//         .json(new ApiResponse(200, req.user, "current user fetched successfully"))
 
-    await User.findByIdAndUpdate(req.user?._id,
-        {
-            $set: {
-                Fullname,
-                email: email,
-            }
-        },
-        { new: true }
-    ).select("-password")
+// })
 
-    return res.status(200)
-        .json(new ApiResponse(200, {}, "entity updated succefully"))
+// const UserDataChange = asyncHandler(async (req, res) => {
+//     const { Fullname, username } = req.body;
 
-})
+//     if (!Fullname || !username) {
+//         throw new ApiError(401, "all fileds are require");
+//     }
 
-const UpdateAvatar = asyncHandler(async (req, res) => {
-    const avatarLocalPath = await avatar.file?.path
+//     await User.findByIdAndUpdate(req.user?._id,
+//         {
+//             $set: {
+//                 Fullname,
+//                 email: email,
+//             }
+//         },
+//         { new: true }
+//     ).select("-password")
 
-    if (!avatarLocalPath) {
-        throw new ApiError(400, "Avatar not found !!")
-    }
+//     return res.status(200)
+//         .json(new ApiResponse(200, {}, "entity updated succefully"))
 
-    const avatar = await uploadOnCloudinary(avatarLocalPath)
-    if (!avatar.url) {
-        throw new ApiError(400, "error while uploading the file")
-    }
-    const user=await User.findByIdAndUpdate(req.user?._id,
-        {
-            $set: {
-                avatar: avatar.url
-            }
-        },
-        { new: true }
-    ).select("-password")
+// })
 
-    return res.status(200)
-        .json(new ApiResponse(200, user, "entity updated succefully"))
-    save()
-})
+// const UpdateAvatar = asyncHandler(async (req, res) => {
+//     const avatarLocalPath = await avatar.file?.path
 
-const UpdateCoverImg = asyncHandler(async (req, res) => {
-    const coverImageLocalPath = file.body;
+//     if (!avatarLocalPath) {
+//         throw new ApiError(400, "Avatar not found !!")
+//     }
 
-    if (!coverImageLocalPath) {
-        throw new ApiError(400, " Image not found !!");
-    }
-    const coverImage = uploadOnCloudinary(coverImageLocalPath)
+//     const avatar = await uploadOnCloudinary(avatarLocalPath)
+//     if (!avatar.url) {
+//         throw new ApiError(400, "error while uploading the file")
+//     }
+//     const user=await User.findByIdAndUpdate(req.user?._id,
+//         {
+//             $set: {
+//                 avatar: avatar.url
+//             }
+//         },
+//         { new: true }
+//     ).select("-password")
 
-    if (!coverImage.url) {
-        throw new ApiError(400, "error while uploading the file")
-    }
-    const user=await User.findByIdAndUpdate(req.user?._id,
-        {
-            $set: {
-                coverImage: coverImage.url
-            }
-        },
-        { new: true }
-    ).select("-password")
-    return res.status(200)
-        .json(new ApiResponse(200, user, "entity updated succefully"))
-    save()
+//     return res.status(200)
+//         .json(new ApiResponse(200, user, "entity updated succefully"))
+//     save()
+// })
 
-})
+// const UpdateCoverImg = asyncHandler(async (req, res) => {
+//     const coverImageLocalPath = file.body;
+
+//     if (!coverImageLocalPath) {
+//         throw new ApiError(400, " Image not found !!");
+//     }
+//     const coverImage = uploadOnCloudinary(coverImageLocalPath)
+
+//     if (!coverImage.url) {
+//         throw new ApiError(400, "error while uploading the file")
+//     }
+//     const user=await User.findByIdAndUpdate(req.user?._id,
+//         {
+//             $set: {
+//                 coverImage: coverImage.url
+//             }
+//         },
+//         { new: true }
+//     ).select("-password")
+//     return res.status(200)
+//         .json(new ApiResponse(200, user, "entity updated succefully"))
+//     save()
+
+// })
 
 
 export {
@@ -323,9 +326,9 @@ export {
     loginUser,
     logoutUser,
     refreshAccessToken,
-    changeCurrentPassword,
-    getCurrentUser,
-    UserDataChange,
-    UpdateAvatar,
-    UpdateCoverImg
+    // changeCurrentPassword,
+    // getCurrentUser,
+    // UserDataChange,
+    // UpdateAvatar,
+    // UpdateCoverImg
 }
